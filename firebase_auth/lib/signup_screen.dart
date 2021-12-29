@@ -15,28 +15,28 @@ class _SignupScreenState extends State<SignupScreen> {
 
   //firebase
   signUp() async{
-  try {
-  UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-  email: emailTextEditingController.text,
-  password: passwordTextEditingController.text,
-  );
-  var authCredential = userCredential.user;
-  print(authCredential!.uid);
-  if(authCredential.uid.isNotEmpty){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()),);
-  }
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailTextEditingController.text,
+        password: passwordTextEditingController.text,
+      );
+      var authCredential = userCredential.user;
+      print(authCredential!.uid);
+      if(authCredential.uid.isNotEmpty){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()),);
+      }
 
 
-  } on FirebaseAuthException catch (e) {
-  if (e.code == 'weak-password') {
-  Fluttertoast.showToast(msg: "Week Password");
-  } else if (e.code == 'email-already-in-use') {
-  Fluttertoast.showToast(msg: "Email already in use");
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        Fluttertoast.showToast(msg: "Week Password");
+      } else if (e.code == 'email-already-in-use') {
+        Fluttertoast.showToast(msg: "Email already in use");
+      }
+    } catch (e) {
+      print(e);
+    }
   }
-  } catch (e) {
-  print(e);
-  }
-}
 
   //form key
   final _formkey = GlobalKey<FormState>();
