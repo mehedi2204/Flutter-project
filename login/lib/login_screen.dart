@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/home_screen.dart';
 import 'package:login/signup_screen.dart';
+import 'package:login/user_info.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

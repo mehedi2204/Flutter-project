@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:login/home_screen.dart';
 import 'package:login/login_screen.dart';
+import 'package:login/user_info.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -15,17 +16,20 @@ class _SignupPageState extends State<SignupPage> {
 
   SignUp() async{
     try{
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailcontroller.text, password: _passwordController.text);
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailcontroller.text,
+          password: _passwordController.text,
+      );
       var authCredential = userCredential.user;
       print(authCredential!.uid);
       if(authCredential.uid.isNotEmpty){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()),);
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>UserDetails()),);
       }
 
     }on FirebaseAuthException catch(e){
-      if (e.code=="Email already in use"){
+      if (e.code=="email-already-in-use"){
         Fluttertoast.showToast(msg: "Email already in use");
-      } else if (e.code=="Password not perfect") {
+      } else if (e.code=="weak-password") {
         Fluttertoast.showToast(msg: "Password not perfect");
       }
     }
@@ -73,12 +77,7 @@ class _SignupPageState extends State<SignupPage> {
                 padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                 minWidth: MediaQuery.of(context).size.width,
                 onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(),
-                    ),
-                  );
+                  SignUp();
                 },
                 child: const Text(
                   "SignUP",
