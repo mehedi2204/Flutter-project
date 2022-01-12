@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login/home_screen.dart';
 import 'package:login/login_screen.dart';
@@ -31,6 +33,18 @@ class _UserDetailsState extends State<UserDetails> {
     }
   }
 
+  senddataToDB()async{
+    final FirebaseAuth _auth=FirebaseAuth.instance;
+    var _currentUser=_auth.currentUser;
+    CollectionReference _collectionRef=FirebaseFirestore.instance.collection("User Data");
+    return _collectionRef.doc(_currentUser!.email).set({
+      "First Name": _firstName.text,
+      "Second Name": _secondName.text,
+      "Gender": _gender.text,
+      "Date of Birth": _calender.text,
+    }).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage())));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
@@ -51,29 +65,17 @@ class _UserDetailsState extends State<UserDetails> {
               ),
               SizedBox(height: 5.0,),
               TextFormField(
-                controller: _secondName,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                  hintText: "Second Name",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-              SizedBox(height: 5.0,),
-              TextFormField(
                 controller: _gender,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   suffixIcon: DropdownButton(
                     items: gender.map((String value){
                       return DropdownMenuItem(value: value,
-                      child: new Text(value),
+                        child: new Text(value),
                         onTap: (){
-                        setState(() {
-                          _gender.text=value;
-                        });
+                          setState(() {
+                            _gender.text=value;
+                          });
                         },
                       );
                     }).toList(),
@@ -81,6 +83,19 @@ class _UserDetailsState extends State<UserDetails> {
                   ),
                   contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                   hintText: "Gender",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              SizedBox(height: 5.0,),
+              TextFormField(
+                controller: _secondName,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+
+                  contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                  hintText: "Second Name",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -109,12 +124,7 @@ class _UserDetailsState extends State<UserDetails> {
                 padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
                 minWidth: MediaQuery.of(context).size.width,
                 onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(),
-                    ),
-                  );
+                  senddataToDB();
                 },
                 child: const Text(
                   "Submit",
