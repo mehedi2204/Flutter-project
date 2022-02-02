@@ -75,14 +75,10 @@ class _MyHomePageState extends State<MyHomePage> {
     body: CustomScrollView(
       slivers: [
         SliverAppBar(
-          floating: false,
-          pinned: true,
+          floating: true,
+          pinned: false,
           backgroundColor: Colors.transparent,
           expandedHeight: 300,
-
-shape: RoundedRectangleBorder (
-  borderRadius: Bord
-),
 
           title: Text('First title',
             style: TextStyle(
