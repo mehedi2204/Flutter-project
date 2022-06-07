@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Flutter project.iml" filepath="$PROJECT_DIR$/.idea/Flutter project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/abbastest11.iml" filepath="$PROJECT_DIR$/abbastest11.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/abbastest11_android.iml" filepath="$PROJECT_DIR$/android/abbastest11_android.iml" />
     </modules>
   </component>
 </project>
